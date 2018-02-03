@@ -69,16 +69,19 @@ var resultBox = '<div class="box result">\
 $(document).ready(function() {
     // button listeners for initial action boxes
     resultBoxListener($(".box"));
-    actionBoxListener($(".box"));
+    actionBoxListener($(".box.action"));
     trashListener($(".box"));
+    unfocusResultAutoSave($(".box.result"));
+    unfocusActionAutoSave($(".box.action"));
 });
 
 // creating a new result box button listener
 function resultBoxListener(aBox) {
     aBox.find(".box-btn.add-result").click(function() {
         $(this).closest(".step.col-md-3").append(resultBox);
-        resultBoxListener($(".box.result:last"));
-        trashListener($(".box.result:last"));
+        resultBoxListener($(this).closest(".step.col-md-3").find(".box.result:last"));
+        trashListener($(this).closest(".step.col-md-3").find(".box.result:last"));
+        unfocusResultAutoSave($(this).closest(".step.col-md-3").find(".box.result:last"));
     });
 }
 
@@ -89,6 +92,8 @@ function actionBoxListener(aBox) {
         actionBoxListener($(".box.action:last"));
         resultBoxListener($(".box.action:last"));
         trashListener($(".box.action:last"));
+        unfocusActionAutoSave($(".box.action:last"));
+        $(this).hide();
     });
 }
 
@@ -97,10 +102,33 @@ function trashListener(aBox) {
     aBox.find(".box-btn.remove-box").click(function() {
         // result should be removed itself
         if ($(this).closest(".box").hasClass("result")) {
-           $(this).closest(".box").remove(); 
+           $(this).closest(".box").remove();
         // all associated results should be deleted from an action
         } else if ($(this).closest(".box").hasClass("action")) {
             $(this).closest(".box").closest(".step").remove();
         }
     });
+}
+
+// each action box should have this listener attached to it - on unfocus,
+// save that box to database
+function unfocusActionAutoSave(actionBox) {
+  actionBox.find(".selector").focusout(function() {
+    saveAction(actionBox);
+    console.log("action unfocus");
+  });
+
+  actionBox.find(".box-type").change(function() {
+    saveResult(resultBox);
+  });
+}
+
+function unfocusResultAutoSave(resultBox) {
+  resultBox.find(".selector").focusout(function() {
+    saveResult(resultBox);
+  });
+
+  resultBox.find(".box-type").change(function() {
+    saveResult(resultBox);
+  });
 }

@@ -1,19 +1,20 @@
-function saveAction(box) {
+function saveAction(actionBox) {
     // get the type and selector
-    var boxId = box.attr("id");
-    var boxType = box.find(".box-type").val();
-    var boxSelector = box.find(".selector").val();
-    
+    var actionId = actionBox.attr("id");
+    var boxType = actionBox.find(".box-type").val();
+    var boxSelector = actionBox.find(".selector").val();
+    var parentActionId = actionBox.attr("parent_id");
+
     // save to database
-    
+
 }
 
-function saveResult(box) {
+function saveResult(resultBox) {
     // get the type and selector
-    var boxId = box.attr("id");
-    var boxType = box.find(".box-type").val();
-    var boxSelector = box.find(".selector").val();
-    var actionId = box.closest(".step").find(".box.action:first");
-    
+    var resultId = resultBox.attr("id");
+    var boxType = resultBox.find(".box-type").val();
+    var boxSelector = resultBox.find(".selector").val();
+    var actionId = resultBox.closest(".step").find(".box.action:first");
+
     // save to database
 }

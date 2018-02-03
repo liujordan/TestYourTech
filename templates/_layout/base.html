@@ -1,1 +1,22 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Test your Tech</title>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'TestYourTech/css/main.css' %}">
+      <link rel="shortcut icon" href="favicon.png" type="image/png" />
+  </head>
+  <body>
+{% block content %}
+
+{% endblock %}
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="{% static 'TestYourTech/js/box.js' %}"></script>
+  <script src="{% static 'TestYourTech/js/send.js' %}"></script>
+</html>
