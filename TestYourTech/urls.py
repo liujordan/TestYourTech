@@ -19,5 +19,6 @@ from .views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('action/1/run', runView.as_view(), name='run')
+    path('', HomeView.as_view(), name='home'),
+    path('action/1/run', runView.as_view(), name='run'),
 ]

@@ -1,4 +1,5 @@
 from django.views import View
+from django.views.generic import TemplateView
 from django.http import HttpResponse
 from selenium import webdriver
 class runView(View):
@@ -11,3 +12,5 @@ class runView(View):
 		browser.quit()
 		return HttpResponse('Ran test without errors')
 
+class HomeView(TemplateView):
+	template_name = 'TestYourTech/index.html'
