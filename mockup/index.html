@@ -13,68 +13,43 @@
 </head>
 
 <body>
+    <h1 style="color:white;margin:30px;">Test Your Tech Flowchart</h1>
     <div class="container">
-        <div class="box action">
-            <div class="box-heading">
-                <div class="box-title">
-                    Action
-                </div>
-                <div class="box-buttons">
-                    <div class="box-btn" style="font-weight:bold">
-                        <span class="fa fa-plus"></span>
+        <div class="step col-md-3 rp">
+            <!-- TODO: replace ID in django partial to be database -->
+            <div id="1001" class="box action">
+                <div class="box-heading">
+                    <div class="box-title">
+                        Action
                     </div>
-                    <div class="box-btn">
-                        <span class="fa fa-angle-right"></span>
+                    <div class="box-buttons">
+                        <div class="box-btn add-result" style="font-weight:bold">
+                            <span class="fa fa-plus"></span>
+                        </div>
+                        <div class="box-btn next-action">
+                            <span class="fa fa-angle-right"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="box-details">
-                <div class="col-xs-4 rp">
-                    <span class="type-label">Type</span>
-                    <span class="selector-label">Selector</span>
-                </div>
-                <div class="col-xs-8 rp">
-                    <select class="type">
-                      <option value="form">Form</option>
-                      <option value="click">Click</option>
-                    </select>
-                    <input class="selector" type="text">
-                </div>
-            </div>
-        </div>
-        
-        <div class="box result">
-            <div class="box-heading">
-                <div class="box-title">
-                    Expected Result
-                </div>
-                <div class="box-buttons">
-                    <div class="box-btn" style="font-weight:bold">
-                        <span class="fa fa-plus"></span>
+                <div class="box-details">
+                    <div class="col-xs-4 rp">
+                        <span class="type-label">Type</span>
+                        <span class="selector-label">Selector</span>
+                    </div>
+                    <div class="col-xs-8 rp">
+                        <select class="box-type">
+                          <option value="form">Form</option>
+                          <option value="click">Click</option>
+                        </select>
+                        <input class="selector" type="text">
                     </div>
                 </div>
             </div>
-            <div class="box-details">
-                <div class="col-xs-4 rp">
-                    <span class="type-label">Type</span>
-                    <span class="selector-label">Selector</span>
-                </div>
-                <div class="col-xs-8 rp">
-                    <select class="type">
-                      <option value="element">Element</option>
-                      <option value="text">Text</option>
-                    </select>
-                    <input class="selector" type="text">
-                </div>
-            </div>
-        </div>
+        </div>        
     </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script>
-    
-    
-</script>
-
+<script src="/box.js"></script>
+<script src="/send.js"></script>
 </html>
