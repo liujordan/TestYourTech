@@ -71,6 +71,7 @@ function resultBoxListener(aBox) {
     aBox.find(".box-btn.add-result").click(function() {
         $(this).closest(".step.col-md-3").append(resultBox);
         resultBoxListener($(".box.result:last"));
+        trashListener($(".box.result:last"));
     });
 }
 
@@ -79,11 +80,16 @@ function actionBoxListener(aBox) {
         $(this).closest(".step.col-md-3").after(actionBox);
         actionBoxListener($(".box.action:last"));
         resultBoxListener($(".box.action:last"));
+        trashListener($(".box.action:last"));
     });
 }
 
 function trashListener(aBox) {
     aBox.find(".box-btn.remove-box").click(function() {
-       $(this).closest(".box").remove();
+        if ($(this).closest(".box").hasClass("result")) {
+           $(this).closest(".box").remove(); 
+        } else if ($(this).closest(".box").hasClass("action")) {
+            $(this).closest(".box").closest(".step").remove();
+        }
     });
 }
