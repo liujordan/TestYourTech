@@ -5,10 +5,7 @@ ACTION_TYPES = [
 class Action(models.Model):
 	id = models.IntegerField()
 	type = models.CharField(max_length=256, choices=ACTION_TYPES, default='click')
-	selector = models.OneToOneField(
-		Selector,
-		on_delete=models.CASCADE,
-		primary_key=True),
+	selector = models.ForeignKey(Selector, on_delete=models.CASCADE)
 	name = models.CharField(max_length=256)
 	testcases = models.ManyToManyField(
 		TestCase,
@@ -22,9 +19,14 @@ class Action(models.Model):
 		Action,
 		through='ActionLink',
 		through_fields=('action', 'next_action'))
-
-
-
+class Result(models.Model):
+	id = models.IntegerField()
+	name = models.CharField(max_length=256)
+	selector = models.ForeignKey(Selector, on_delete=models.CASECADE)
+	
+class TestCase(models.Model):
+	id = models.IntegerField()
+	name = models.CharField(max_length=256)
 class ActionLink(models.Model):
 	action = models.ForeignKey(Action, on_delete=models.CASCADE)
 	next_action = models.ForeignKey(Action, on_delete=models.CASCADE)
