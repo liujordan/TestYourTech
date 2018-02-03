@@ -79,11 +79,15 @@ body {
     line-height: 2.5;
 }
 
-.box .box-details input.selector,select.type {
+.box .box-details input.selector,select.box-type {
     height: 30px;
     width: 135px;
     color: black;
     border-radius: 5px;
+}
+
+.box .box-details select.type .options {
+    color: black;
 }
 
 .box .box-details .rp {

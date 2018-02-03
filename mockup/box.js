@@ -89,6 +89,7 @@ function actionBoxListener(aBox) {
         actionBoxListener($(".box.action:last"));
         resultBoxListener($(".box.action:last"));
         trashListener($(".box.action:last"));
+        $(this).hide();
     });
 }
 
