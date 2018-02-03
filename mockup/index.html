@@ -13,9 +13,11 @@
 </head>
 
 <body>
+    <h1 style="color:white;margin:30px;">Test Your Tech Flowchart</h1>
     <div class="container">
         <div class="step col-md-3 rp">
-            <div class="box action">
+            <!-- TODO: replace ID in django partial to be database -->
+            <div id="1001" class="box action">
                 <div class="box-heading">
                     <div class="box-title">
                         Action
@@ -35,7 +37,7 @@
                         <span class="selector-label">Selector</span>
                     </div>
                     <div class="col-xs-8 rp">
-                        <select class="type">
+                        <select class="box-type">
                           <option value="form">Form</option>
                           <option value="click">Click</option>
                         </select>
@@ -43,16 +45,11 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="step col-md-3 rp">
-            
-        </div>
-        
-        
-        
+        </div>        
     </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="/main.js"></script>
+<script src="/box.js"></script>
+<script src="/send.js"></script>
 </html>

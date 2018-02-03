@@ -1,4 +1,10 @@
-// temp partials
+/**
+ * This file is responsible for ensuring that the buttons work
+ * for the flowchart when it is created.
+ *
+ */
+
+// temp partials (to be refactored to be django partials)
 var actionBox = '<div class="step col-md-3 rp"><div class="box action">\
                 <div class="box-heading">\
                     <div class="box-title">\
@@ -22,7 +28,7 @@ var actionBox = '<div class="step col-md-3 rp"><div class="box action">\
                         <span class="selector-label">Selector</span>\
                     </div>\
                     <div class="col-xs-8 rp">\
-                        <select class="type">\
+                        <select class="box-type">\
                           <option value="form">Form</option>\
                           <option value="click">Click</option>\
                         </select>\
@@ -51,7 +57,7 @@ var resultBox = '<div class="box result">\
                         <span class="selector-label">Selector</span>\
                     </div>\
                     <div class="col-xs-8 rp">\
-                        <select class="type">\
+                        <select class="box-type">\
                           <option value="element">Element</option>\
                           <option value="text">Text</option>\
                         </select>\
@@ -61,12 +67,13 @@ var resultBox = '<div class="box result">\
             </div>';
 
 $(document).ready(function() {
-    // result listener for initial action box
+    // button listeners for initial action boxes
     resultBoxListener($(".box"));
     actionBoxListener($(".box"));
     trashListener($(".box"));
 });
 
+// creating a new result box button listener
 function resultBoxListener(aBox) {
     aBox.find(".box-btn.add-result").click(function() {
         $(this).closest(".step.col-md-3").append(resultBox);
@@ -75,6 +82,7 @@ function resultBoxListener(aBox) {
     });
 }
 
+// create a new action box button listener
 function actionBoxListener(aBox) {
     aBox.find(".box-btn.next-action").click(function() {
         $(this).closest(".step.col-md-3").after(actionBox);
@@ -84,10 +92,13 @@ function actionBoxListener(aBox) {
     });
 }
 
+// removing a box button listener
 function trashListener(aBox) {
     aBox.find(".box-btn.remove-box").click(function() {
+        // result should be removed itself
         if ($(this).closest(".box").hasClass("result")) {
            $(this).closest(".box").remove(); 
+        // all associated results should be deleted from an action
         } else if ($(this).closest(".box").hasClass("action")) {
             $(this).closest(".box").closest(".step").remove();
         }
