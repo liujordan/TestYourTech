@@ -15,6 +15,11 @@
     font-size: 15px;
     font-weight: 300;
     margin: 10px;
+    display: inline-block;
+}
+
+.box.result {
+    display: block;
 }
 
 .box .box-heading {
@@ -36,9 +41,27 @@
 .box .box-heading .box-title {
     color: white;
     position: relative;
-    top: 20%;
-    bottom: 20%;
-    left: 10px;
+    padding-left: 10px;
+    padding-top: 6px;
+    width: 50%;
+    display: inline-block;
+}
+
+.box .box-heading .box-buttons {
+    margin-right: 6px;
+    display: inline-block;
+    float: right;
+    margin-top: 6px;
+}
+
+.box .box-heading .box-btn {
+    background-color: #b1b1b1;
+    border: none;
+    width: 20px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
 }
 
 .box .box-details {
@@ -60,12 +83,8 @@
     border-radius: 5px;
 }
 
-.box .box-details .remove-padding {
+.box .box-details .rp {
     padding: 0;
-}
-
-.box .box-buttons {
-    margin-right: 15px;
 }
 
 .box .btn.btn-box {
