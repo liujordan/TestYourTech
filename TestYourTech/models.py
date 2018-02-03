@@ -2,6 +2,10 @@ from django.db import models
 ACTION_TYPES = [
 	('click', 'CLICK'),
 	('type', 'TYPE')]
+	SELECTOR_TYPES = [
+	('id', 'ID'),
+	('css_selector', 'CSS_SELECTOR'),
+	('xpath', 'XPATH')]
 class Action(models.Model):
 	id = models.IntegerField()
 	type = models.CharField(max_length=256, choices=ACTION_TYPES, default='click')
@@ -23,7 +27,11 @@ class Result(models.Model):
 	id = models.IntegerField()
 	name = models.CharField(max_length=256)
 	selector = models.ForeignKey(Selector, on_delete=models.CASECADE)
-	
+class Selector(models.Model):
+	id = models.IntegerField()
+	name = models.CharField(max_length=256)
+	type = models.CharField(max_length=256, choices=SELECTOR_TYPES)
+	value = models.CharField(max_length=256)
 class TestCase(models.Model):
 	id = models.IntegerField()
 	name = models.CharField(max_length=256)
