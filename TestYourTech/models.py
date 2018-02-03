@@ -1,7 +1,8 @@
 from django.db import models
 ACTION_TYPES = [
     ('click', 'CLICK'),
-    ('type', 'TYPE')]
+    ('type', 'TYPE'),
+    ('url', 'GO TO URL')]
 SELECTOR_TYPES = [
     ('id', 'ID'),
     ('css_selector', 'CSS_SELECTOR'),
