@@ -6,7 +6,8 @@ ACTION_TYPES = [
 SELECTOR_TYPES = [
     ('id', 'ID'),
     ('css_selector', 'CSS_SELECTOR'),
-    ('xpath', 'XPATH')]
+    ('xpath', 'XPATH'),
+    ('string', 'STRING')]
 
 
 class Selector(models.Model):
