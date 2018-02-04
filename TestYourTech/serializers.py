@@ -4,10 +4,7 @@ SELECTOR_TYPES = [
     ('id', 'ID'),
     ('css_selector', 'CSS_SELECTOR'),
     ('xpath', 'XPATH')]
-class SelectorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Selector
-        fields = '__all__'
+
 class TestCaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestCase

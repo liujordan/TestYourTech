@@ -4,19 +4,6 @@ ACTION_TYPES = [
     ('type', 'TYPE'),
     ('url', 'GO TO URL'),
     ('submit', 'SUBMIT')]
-SELECTOR_TYPES = [
-    ('id', 'ID'),
-    ('css_selector', 'CSS_SELECTOR'),
-    ('xpath', 'XPATH'),
-    ('string', 'STRING')]
-
-
-class Selector(models.Model):
-    def __str__(self):
-        return self.name
-    name = models.CharField(max_length=256)
-    selector_type = models.CharField(max_length=256, choices=SELECTOR_TYPES)
-    value = models.CharField(max_length=256)
 
 
 class TestCase(models.Model):
