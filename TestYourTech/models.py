@@ -46,6 +46,4 @@ class Action(models.Model):
     results = models.ManyToManyField(
         Result,
         blank=True)
-    next_action = models.ManyToManyField(
-        'self',
-        blank=True)
+    next_action = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True)

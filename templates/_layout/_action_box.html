@@ -73,25 +73,22 @@
 $("#action-{{action.id}} .selector").click(function() {
   $('#iframe-modal').modal({show: true});
 });
-
-$(document).ready(function() {
-  showCorrectType();
-});
+showCorrectType();
 // if box type == typing, show value text
-$(".box-type").change(function() {
+$("#action-{{action.id}} .box-type").change(function() {
   showCorrectType();
 });
 
 function showCorrectType() {
-  if ($(".box-type").val() === "click") {
-    $(".box-details .text").hide();
-    $(".box-details .selector,.box-details .selector-label").show();
-  } else if ($(".box-type").val() === "url") {
-    $(".box-details .text").show();
-    $(".box-details .selector,.box-details .selector-label").hide();
-  } else if ($(".box-type").val() === "type"){
-    $(".box-details .text").show();
-    $(".box-details .selector,.box-details .selector-label").show();
+  if ($("#action-{{action.id}} .box-type").val() === "click") {
+    $("#action-{{action.id}} .box-details .text").hide();
+    $("#action-{{action.id}} .box-details .selector,#action-{{action.id}} .box-details .selector-label").show();
+  } else if ($("#action-{{action.id}} .box-type").val() === "url") {
+    $("#action-{{action.id}} .box-details .text").show();
+    $("#action-{{action.id}} .box-details .selector,#action-{{action.id}} .box-details .selector-label").hide();
+  } else if ($("#action-{{action.id}} .box-type").val() === "type"){
+    $("#action-{{action.id}} .box-details .text").show();
+    $("#action-{{action.id}} .box-details .selector,#action-{{action.id}} .box-details .selector-label").show();
   }
 }
 </script>
