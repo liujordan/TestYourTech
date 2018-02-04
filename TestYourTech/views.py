@@ -52,42 +52,46 @@ def _execute(browser, function, selector=None, value=None):
     elif function == 'submit':
         function = submit
     return function(browser, selector, value)
-def find_paths(path_so_far, cur_action_id):
-    out = []
-    paths_to_take = ActionLink.objects.filter(id=cur_action_id)
-    if len(paths_to_take) == 0:
-        return [cur_action_id]
-    for path in paths_to_take:
-        out += find_paths(path_so_far + [cur_action_id], path.id)
-    return out
+def _validate(browser, selector, value):
+    if not value:
+        print("Result validate value not set")
+        return True
+    element = WebDriverWait(browser1, 10).until(
+        EC.presence_of_element_located((By.XPATH, selector1))
+    )
+    return element.text == value
 @csrf_exempt
 def runView(request):
     if request.method == 'POST':
+        message = ""
         # initiate the browser
         webdriver_dir = SystemVariable.objects.get(pk='webdriver_dir').value
         computer_type = SystemVariable.objects.get(pk='computer_type').value
-
         # initiate the actions
         try:
             action = Action.objects.get(id=int(request.POST.get("action_id", 0)))
         except Action.DoesNotExist:
             return HttpResponse(status=404)
         browser = webdriver.Chrome(os.path.join(os.path.join(webdriver_dir, computer_type), "chromedriver.exe"))
-        paths = find_paths([], action.id)
-        pprint(paths)
-        # while True:
-        #     print("Action now: ", action.name)
-        #     function = action.action_type
-        #     selector = action.selector
-        #     value = action.value
-        #     _execute(browser, function, selector, value)
-        #     try:
-        #         new_id = ActionLink.objects.get(this=action.id).after.id
-        #         print("new id ", new_id)
-        #         action = Action.objects.get(id=new_id)
-        #     except:
-        #         break
+        while True:
+            print("Action now: ", action.name)
+            function = action.action_type
+            selector = action.selector
+            value = action.value
+            _execute(browser, function, selector, value)
+
+            if _validate(browser, action.result.selector, action.result.value):
+                message += action.name + ": Success\n"
+            else:
+                message += action.name + ": Fail\n"
+            try:
+                new_id = ActionLink.objects.get(this=action.id).after.id
+                action = Action.objects.get(id=new_id)
+            except:
+                break
         browser.quit()
+        if message:
+            return HttpResponse(message)
         return HttpResponse('Ran test without errors')
 
 class runTestView(View):
@@ -122,6 +126,7 @@ def model_list(request, Model, ModelSerializer):
         serializer = ModelSerializer(model, many=True)
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
+        pprint(request.POST)
         data = JSONParser().parse(request)
         serializer = ModelSerializer(data=data)
         if serializer.is_valid():

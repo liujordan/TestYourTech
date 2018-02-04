@@ -24,9 +24,9 @@ function attachRunListener() {
   $(".box.action .box-btn.run-box").click(function() {
     var actionId = $(this).closest(".box").attr("id");
     $.post(
-      'action/run_test/',
+      'action/run/',
       {
-        'action_id':actionId
+        'action_id':actionId.split('-')[1]
       },
       function(data, status){
         alert("Data: " + data + "\nStatus: " + status);

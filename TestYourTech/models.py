@@ -29,19 +29,17 @@ class Result(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=256)
-    selector = models.ForeignKey(Selector, on_delete=models.CASCADE)
+    selector = models.CharField(max_length=256)
+    value = models.CharField(max_length=256, blank=True)
 
 
 class Action(models.Model):
     def __str__(self):
         return self.name
-    name = models.CharField(max_length=256)
-    action_type = models.CharField(max_length=256, choices=ACTION_TYPES, default='click')
-    selector = models.CharField(max_length=256) #ONLY XPATH
+    name = models.CharField(max_length=256, blank=True)
+    action_type = models.CharField(max_length=256, blank=True, choices=ACTION_TYPES, default='click')
+    selector = models.CharField(max_length=256, blank=True) #ONLY XPATH
     value = models.CharField(max_length=256, blank=True, null=True)
-    testcases = models.ManyToManyField(
-        TestCase,
-        blank=True)
     result = models.ForeignKey(Result, on_delete=models.CASCADE, null=True, blank=True)
     action_link = models.ManyToManyField('self', through='ActionLink', symmetrical=False)
 

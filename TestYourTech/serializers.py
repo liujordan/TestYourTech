@@ -17,8 +17,6 @@ class ResultSerializer(serializers.ModelSerializer):
         model = Result
         fields = '__all__'
 class ActionSerializer(serializers.ModelSerializer):
-    testcases = TestCaseSerializer(many=True)
-    results = ResultSerializer(many=True)
     class Meta:
         model = Action
         fields = '__all__'

@@ -26,8 +26,10 @@ var actionBox = '<div class="step col-md-3 rp"><div class="box action new">\
                     </div>\
                     <div class="col-xs-8 rp">\
                         <select class="box-type">\
-                          <option value="form">Form</option>\
-                          <option value="click">Click</option>\
+                          <option value="">--Select One--</option>\
+                          <option value="url">URL</option>\
+                          <option value="type">Typing</option>\
+                          <option value="click" selected="">Click</option>\
                         </select>\
                         <input class="selector" type="text">\
                     </div>\
@@ -47,6 +49,16 @@ $(document).ready(function() {
 function actionBoxListener(box) {
   box.find(".box-btn.next-action").click(function() {
     // generate the html of the new actionbox
+    var actionId = $(this).closest(".box").attr("id").split('-')[1];
+    $.post('actions/',JSON.stringify({"name":"what"}), function(data, status) {
+      alert("Data: " + data + "\nStatus: " + status);
+      $.post(
+        'action_link/',
+        JSON.stringify({"this":actionId , "after":data['id']}),
+        function(data, status){
+          alert("Data: " + data + "\nStatus: " + status);
+        });
+    });
     $(this).closest(".step.col-md-3").after(actionBox);
     // attach all listeners to it
     actionBoxListener($(".box.action.new"));
