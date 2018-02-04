@@ -75,3 +75,9 @@ def action_detail(request, pk):
     return model_detail(request, pk, Action, ActionSerializer)
 class HomeView(TemplateView):
     template_name = 'TestYourTech/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['action_types'] = ACTION_TYPES;
+        # context['selector_types'] = SELECTOR_TYPES;
+        return context
