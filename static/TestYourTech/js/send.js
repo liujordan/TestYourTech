@@ -27,7 +27,14 @@ function saveAction(actionBox) {
 function attachRunListener() {
   $(".box.action .box-btn.run-box").click(function() {
     var actionId = $(this).closest(".box").attr("id");
-
-    // TODO: API call to run the test case
+    $.post(
+      'action/run_test/',
+      {
+        'action_id':actionId
+      },
+      function(data, status){
+        alert("Data: " + data + "\nStatus: " + status);
+      }
+    );
   });
 }

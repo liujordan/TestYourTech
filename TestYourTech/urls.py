@@ -20,7 +20,7 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
-    path('action/1/run', runView.as_view(), name='run'),
+    path('action/run/', runView.as_view(), name='run'),
     path('action/run_test/', runTestView.as_view()),
     path('action/<int:action_pk>/result/', action_result_list),
     path('action/<int:action_pk>/result/<int:result_pk>/', action_result_detail),

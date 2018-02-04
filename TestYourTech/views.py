@@ -6,22 +6,50 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+import os
 from .models import *
 from .serializers import *
 from Variables.models import SystemVariable
+from django.utils.decorators import method_decorator
+from pprint import pprint
 
+def _execute(browser, function, selector=None, value=None):
+    def click(browser1, selector1, value1=None):
+        browser.find_element_by_xpath(selector).click()
+    def mytype(browser1, selector1, value1):
+        browser.find_element_by_xpath(selector).send_keys(value)
+    def open_url(browser1, selector1, value1):
+        browser.get(value)
+    if function == 'click':
+        function = click
+    elif function == 'type':
+        function = mytype
+    elif function == 'url':
+        function = open_url
+    return function(browser, selector, value)
 class runView(View):
     def _setup(self):
         self.webdriver_dir = SystemVariable.objects.get(pk='webdriver_dir').value
-    def get(self, request):
-        if 'chrome' in self.webdriver_dir:
-            browser = webdriver.Chrome(self.webdriver_dir)
-        else:
-            return HttpResponse('Webdriver not supported')
-        browser.get('https://www.google.ca')
-        elem = browser.find_element_by_name('q')
-        elem.send_keys('how to google')
-        elem.submit()
+        self.computer_type = SystemVariable.objects.get(pk='computer_type').value
+    def post(self, request):
+        self._setup()
+        # initiate the browser
+        print(self.webdriver_dir)
+        print(os.path.join(self.webdriver_dir, "chromedriver.exe"))
+        # initiate the action
+        try:
+            action = Action.objects.get(id=int(request.data.get("action_id", 0)))
+        except Action.DoesNotExist:
+            return HttpResponse(status=404)
+        browser = webdriver.Chrome(os.path.join(os.path.join(self.webdriver_dir, self.computer_type), "chromedriver.exe"))
+        while len(action.next_action) != 0:
+            print("Action now: ", action.name)
+            function = action.type
+            selector = action.selector
+            value = action.value
+            _execute(browser, function, selector, value)
+            action = action.next_action.all()[-1]
+
         browser.quit()
         return HttpResponse('Ran test without errors')
 
