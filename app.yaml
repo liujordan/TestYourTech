@@ -1,0 +1,11 @@
+# [START runtime]
+runtime: python
+env: flex
+entrypoint: gunicorn -b :$PORT TestYourTech.wsgi
+
+beta_settings:
+    cloud_sql_instances: testmytech-194211:us-east1:testyourtech-sql
+
+runtime_config:
+  python_version: 3
+# [END runtime]
