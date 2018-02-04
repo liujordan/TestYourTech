@@ -91,4 +91,12 @@ function showCorrectType() {
     $("#action-{{action.id}} .box-details .selector,#action-{{action.id}} .box-details .selector-label").show();
   }
 }
+
+$("#action-{{action.id}} select.box-type,input.selector,input.text").change(function() {
+  saveAction($("#action-{{action.id}}"));
+});
+
+$("#action-{{action.id}} .box-heading .box-title").on("focusout", function() {
+  saveAction($("#action-{{action.id}}"));
+});
 </script>

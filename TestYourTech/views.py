@@ -152,6 +152,27 @@ def action_result_list(request, action_pk):
             action.add(Result(pk=serializer.data['id']))
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+class ActionView(View):
+
+    # view
+    def get(self, request):
+        action = Action.objects.get(id=request.POST["action_id"])
+
+    def post(self, request):
+        print(request.POST)
+        action = Action.objects.get(id=int(request.POST["action_id"]))
+        action.name = request.POST["name"]
+        action.action_type = request.POST["action_type"]
+        action.selector = request.POST["action_selector"]
+        action.value = request.POST["selector_value"]
+        action.left_pos = request.POST["left_pos"]
+        action.top_pos = request.POST["top_pos"]
+        action.save()
+
+        return HttpResponse(status=200)
+
+
 @csrf_exempt
 def action_result_detail(request, action_pk, result_pk):
     try:

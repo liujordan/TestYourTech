@@ -38,7 +38,6 @@ $(document).ready(function() {
   // button listeners for initial action boxes
   actionBoxListener($(".box.action"));
   trashListener($(".box"));
-  unfocusActionAutoSave($(".box.action"));
   attachRunListener();
   $(".box").draggable({handle: ".box-heading"});
 
@@ -52,7 +51,6 @@ function actionBoxListener(box) {
     // attach all listeners to it
     actionBoxListener($(".box.action.new"));
     trashListener($(".box.action.new"));
-    unfocusActionAutoSave($(".box.action.new"));
     // make it draggable
     $(".box.action.new").draggable({handle: ".box-heading"});
     $(".box.action.new").removeClass("new");
@@ -68,15 +66,6 @@ function trashListener(aBox) {
     }
   });
 }
-
-// each action box should have this listener attached to it - on unfocus,
-// save that box to database
-function unfocusActionAutoSave(actionBox) {
-  actionBox.find("select.box-type,input.selector,input.text").change(function() {
-    saveAction(actionBox);
-  });
-}
-
 $(".box").mouseup(function() {
   saveAction($(this));
 });
