@@ -10,8 +10,8 @@ from .models import *
 from .serializers import *
 
 class runView(View):
-    def post(self, request):
-        browser = webdriver.Chrome('C:\\Users\\Jordan Liu\\Desktop\\TestYourTech\\webdrivers\\win\\chromedriver.exe')
+    def get(self, request):
+        browser = webdriver.Chrome('webdrivers/mac/chromedriver')
         browser.get('https://www.google.ca')
         elem = browser.find_element_by_name('q')
         elem.send_keys('how to google')
@@ -21,7 +21,8 @@ class runView(View):
 
 class runTestView(View):
     def get(self, request):
-        action = Action.objects.all()[int(request.GET["action_id"])]
+        action = Action.objects.get(id=int(request.GET["action_id"]))
+        print(action)
         browser = webdriver.Chrome('webdrivers/mac/chromedriver');
         while action is not None:
             if action.action_type == "url":
