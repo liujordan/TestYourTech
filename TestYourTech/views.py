@@ -155,5 +155,6 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         # context['action_types'] = ACTION_TYPES;
         # context['selector_types'] = SELECTOR_TYPES;
-        context['first_action'] = Action.objects.get(id=1);
+        context['first_action'] = Action.objects.get(id=1)
+        context['actions'] = Action.objects.all()
         return context

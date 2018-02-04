@@ -76,3 +76,7 @@ function unfocusActionAutoSave(actionBox) {
     saveAction(actionBox);
   });
 }
+
+$(".box").mouseup(function() {
+  saveAction($(this));
+});
