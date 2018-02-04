@@ -8,10 +8,16 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import *
 from .serializers import *
+from Variables.models import SystemVariable
 
 class runView(View):
+    def _setup(self):
+        self.webdriver_dir = SystemVariable.objects.get(pk='webdriver_dir').value
     def get(self, request):
-        browser = webdriver.Chrome('webdrivers/mac/chromedriver')
+        if 'chrome' in self.webdriver_dir:
+            browser = webdriver.Chrome(self.webdriver_dir)
+        else:
+            return HttpResponse('Webdriver not supported')
         browser.get('https://www.google.ca')
         elem = browser.find_element_by_name('q')
         elem.send_keys('how to google')
