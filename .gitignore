@@ -1,6 +1,7 @@
 # custom
 testyourtech-venv/
 .DS_Store
+cloud_sql_proxy
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -104,3 +105,4 @@ ENV/
 
 # mypy
 .mypy_cache/
+TestYourTech/settings.py
