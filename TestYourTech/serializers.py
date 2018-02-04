@@ -23,4 +23,4 @@ class ActionSerializer(serializers.ModelSerializer):
         model = Action
         fields = '__all__'
 ActionSerializer.next_action = ActionSerializer(many=True)
-
+ResultSerializer.actions = ActionSerializer(many=True)
