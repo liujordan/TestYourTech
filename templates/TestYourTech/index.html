@@ -2,11 +2,10 @@
 {% block content %}
 <h1 style="color:white;margin:30px;">Test Your Tech!</h1>
 <div class="steps">
+  <div class="step col-md-12 rp">
       {% for action in actions %}
-      <div class="step col-md-3 rp">
         {% include '_layout/_action_box.html' with action=action %}
-      </div>
       {% endfor %}
-
+  </div>
 </div>
 {% endblock %}
