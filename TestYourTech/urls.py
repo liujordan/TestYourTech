@@ -20,11 +20,11 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
-    path('action/run/', runView.as_view(), name='run'),
+    path('action/run/', runView, name='run'),
     path('action/run_test/', runTestView.as_view()),
     path('action/<int:action_pk>/result/', action_result_list),
     path('action/<int:action_pk>/result/<int:result_pk>/', action_result_detail),
 ]
-things = ['selector', 'testcase', 'result', 'action']
+things = ['selector', 'testcase', 'result', 'action', 'action_link']
 for x in things:
 	urlpatterns += eval("[re_path(r'^%ss/$', %s_list),re_path(r'^%ss/(?P<pk>[0-9]+)/$', %s_detail)]" % (x, x, x, x))

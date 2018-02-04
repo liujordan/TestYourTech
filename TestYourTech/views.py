@@ -12,12 +12,35 @@ from .serializers import *
 from Variables.models import SystemVariable
 from django.utils.decorators import method_decorator
 from pprint import pprint
-
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 def _execute(browser, function, selector=None, value=None):
     def click(browser1, selector1, value1=None):
-        browser.find_element_by_xpath(selector).click()
+        try:
+            element = WebDriverWait(browser1, 10).until(
+                EC.presence_of_element_located((By.XPATH, selector1))
+            )
+            element.click()
+        except:
+            print("timedout", function, selector1, value1)
+    def submit(browser1, selector1, value1=None):
+        try:
+            element = WebDriverWait(browser1, 10).until(
+                EC.presence_of_element_located((By.XPATH, selector1))
+            )
+            element.submit()
+        except:
+            print("timedout", function, selector1, value1)
     def mytype(browser1, selector1, value1):
-        browser.find_element_by_xpath(selector).send_keys(value)
+        try:
+            element = WebDriverWait(browser1, 10).until(
+                EC.presence_of_element_located((By.XPATH, selector1))
+            )
+            element.send_keys(value)
+        except:
+            print("timedout", function, selector1, value1)
     def open_url(browser1, selector1, value1):
         browser.get(value)
     if function == 'click':
@@ -26,30 +49,44 @@ def _execute(browser, function, selector=None, value=None):
         function = mytype
     elif function == 'url':
         function = open_url
+    elif function == 'submit':
+        function = submit
     return function(browser, selector, value)
-class runView(View):
-    def _setup(self):
-        self.webdriver_dir = SystemVariable.objects.get(pk='webdriver_dir').value
-        self.computer_type = SystemVariable.objects.get(pk='computer_type').value
-    def post(self, request):
-        self._setup()
+def find_paths(path_so_far, cur_action_id):
+    out = []
+    paths_to_take = ActionLink.objects.filter(id=cur_action_id)
+    if len(paths_to_take) == 0:
+        return [cur_action_id]
+    for path in paths_to_take:
+        out += find_paths(path_so_far + [cur_action_id], path.id)
+    return out
+@csrf_exempt
+def runView(request):
+    if request.method == 'POST':
         # initiate the browser
-        print(self.webdriver_dir)
-        print(os.path.join(self.webdriver_dir, "chromedriver.exe"))
-        # initiate the action
+        webdriver_dir = SystemVariable.objects.get(pk='webdriver_dir').value
+        computer_type = SystemVariable.objects.get(pk='computer_type').value
+
+        # initiate the actions
         try:
-            action = Action.objects.get(id=int(request.data.get("action_id", 0)))
+            action = Action.objects.get(id=int(request.POST.get("action_id", 0)))
         except Action.DoesNotExist:
             return HttpResponse(status=404)
-        browser = webdriver.Chrome(os.path.join(os.path.join(self.webdriver_dir, self.computer_type), "chromedriver.exe"))
-        while len(action.next_action) != 0:
-            print("Action now: ", action.name)
-            function = action.type
-            selector = action.selector
-            value = action.value
-            _execute(browser, function, selector, value)
-            action = action.next_action.all()[-1]
-
+        browser = webdriver.Chrome(os.path.join(os.path.join(webdriver_dir, computer_type), "chromedriver.exe"))
+        paths = find_paths([], action.id)
+        pprint(paths)
+        # while True:
+        #     print("Action now: ", action.name)
+        #     function = action.action_type
+        #     selector = action.selector
+        #     value = action.value
+        #     _execute(browser, function, selector, value)
+        #     try:
+        #         new_id = ActionLink.objects.get(this=action.id).after.id
+        #         print("new id ", new_id)
+        #         action = Action.objects.get(id=new_id)
+        #     except:
+        #         break
         browser.quit()
         return HttpResponse('Ran test without errors')
 
@@ -133,6 +170,12 @@ def action_list(request):
 @csrf_exempt
 def action_detail(request, pk):
     return model_detail(request, pk, Action, ActionSerializer)
+@csrf_exempt
+def action_link_list(request):
+    return model_list(request, ActionLink, ActionLinkSerializer)
+@csrf_exempt
+def action_link_detail(request, pk):
+    return model_detail(request, pk, ActionLink, ActionLinkSerializer)
 @csrf_exempt
 def action_result_list(request, action_pk):
     try:

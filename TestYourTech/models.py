@@ -2,7 +2,8 @@ from django.db import models
 ACTION_TYPES = [
     ('click', 'CLICK'),
     ('type', 'TYPE'),
-    ('url', 'GO TO URL')]
+    ('url', 'GO TO URL'),
+    ('submit', 'SUBMIT')]
 SELECTOR_TYPES = [
     ('id', 'ID'),
     ('css_selector', 'CSS_SELECTOR'),
@@ -37,15 +38,17 @@ class Action(models.Model):
     name = models.CharField(max_length=256)
     action_type = models.CharField(max_length=256, choices=ACTION_TYPES, default='click')
     selector = models.CharField(max_length=256) #ONLY XPATH
-    value = models.CharField(max_length=256)
-    left_pos = models.CharField(max_length=256, default="0px")
-    top_pos = models.CharField(max_length=256, default="0px")
+    value = models.CharField(max_length=256, blank=True, null=True)
     testcases = models.ManyToManyField(
         TestCase,
         blank=True)
     results = models.ManyToManyField(
         Result,
         blank=True)
-    next_action = models.ManyToManyField(
-        'self',
-        blank=True)
+    action_link = models.ManyToManyField('self', through='ActionLink', symmetrical=False)
+
+class ActionLink(models.Model):
+    def __str__(self):
+        return self.this.name + ' to ' + self.after.name
+    this = models.ForeignKey(Action, on_delete=models.CASCADE, related_name='current')
+    after = models.ForeignKey(Action, on_delete=models.CASCADE)

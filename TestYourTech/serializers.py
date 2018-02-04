@@ -22,5 +22,9 @@ class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
         fields = '__all__'
+class ActionLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActionLink
+        fields = '__all__'
 ActionSerializer.next_action = ActionSerializer(many=True)
 ResultSerializer.actions = ActionSerializer(many=True)
