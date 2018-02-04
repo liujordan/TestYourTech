@@ -201,7 +201,7 @@ def action_result_list(request, action_pk):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-class ActionView(View):
+class ActionView2(View):
 
     # view
     def get(self, request):
