@@ -1,6 +1,6 @@
 function saveAction(actionBox) {
     // get action related attributes
-    var actionId = actionBox.attr("id");
+    var actionId = actionBox.attr("id").split("-")[1];
     var boxType = actionBox.find(".box-type").val();
     var boxSelector = actionBox.find(".selector").val();
     var boxTitle = actionBox.find(".box-title").val();
