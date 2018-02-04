@@ -25,13 +25,13 @@
         </div>
         <div class="col-xs-8 rp">
             <select class="box-type">
-              <option value="">--Select One--</option>
-              <option value="goto_url">Goto URL</option>
-              <option value="type">Typing</option>
-              <option value="click">Click</option>
+              <option value="" {% if action.action_type == ""%} selected{% endif %}>--Select One--</option>
+              <option value="url" {% if action.action_type == "url"%} selected{% endif %}>URL</option>
+              <option value="type" {% if action.action_type == "type"%} selected{% endif %}>Typing</option>
+              <option value="click" {% if action.action_type == "click"%} selected{% endif %}>Click</option>
             </select>
-            <input class="selector" type="text">
-            <input class="text" type="text" style="display:none">
+            <input class="selector" type="text" value="{{action.selector}}">
+            <input class="text" type="text" style="display:none" value="{{action.value}}">
         </div>
         <!-- Expected Results -->
         <!-- <div class="results-section">
@@ -74,17 +74,24 @@ $("#action-{{action.id}} .selector").click(function() {
   $('#iframe-modal').modal({show: true});
 });
 
+$(document).ready(function() {
+  showCorrectType();
+});
 // if box type == typing, show value text
 $(".box-type").change(function() {
+  showCorrectType();
+});
+
+function showCorrectType() {
   if ($(".box-type").val() === "click") {
     $(".box-details .text").hide();
     $(".box-details .selector,.box-details .selector-label").show();
-  } else if ($(".box-type").val() === "goto_url") {
+  } else if ($(".box-type").val() === "url") {
     $(".box-details .text").show();
     $(".box-details .selector,.box-details .selector-label").hide();
   } else if ($(".box-type").val() === "type"){
     $(".box-details .text").show();
     $(".box-details .selector,.box-details .selector-label").show();
   }
-});
+}
 </script>

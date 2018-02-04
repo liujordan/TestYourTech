@@ -7,20 +7,12 @@ function saveAction(actionBox) {
 
     // save action to database
     $.ajax({
-      method: "PUT",
-      url: "/actions/" + actionId + "/",
+      method: "POST",
+      url: "/action/" + actionId + "/result/",
       data: { name: boxTitle, action_type: boxType, action_selector: boxSelector }
     })
       .done(function() {
-        // want to edit the expected results as well
-        $.ajax({
-          method: "POST",
-          url: "/actions/" + actionId + "/result",
-          data: { name: boxTitle, action_type: boxType }
-        })
-          .done(function() {
-            // TODO: want to edit the expected results as well
-          });
+        // TODO: want to edit the expected results as well
       });
 }
 

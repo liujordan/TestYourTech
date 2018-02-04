@@ -72,15 +72,7 @@ function trashListener(aBox) {
 // each action box should have this listener attached to it - on unfocus,
 // save that box to database
 function unfocusActionAutoSave(actionBox) {
-  actionBox.find(".selector").focusout(function() {
-    saveAction(actionBox);
-  });
-
-  actionBox.find(".box-type").change(function() {
-    saveAction(actionBox);
-  });
-
-  actionBox.find(".expected-input").change(function() {
+  actionBox.find("select.box-type,input.selector,input.text").change(function() {
     saveAction(actionBox);
   });
 }
