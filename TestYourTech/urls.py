@@ -21,10 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('action/1/run', runView.as_view(), name='run'),
-    # re_path(r'^selectors/$', selector_list, name='selector'),
-    # re_path(r'^selectors/(?P<pk>[0-9]+)/$', selector_detail	),
-    # re_path(r'^testcases/$', testcase_list, name='testcase'),
-    # re_path(r'^testcases/(?P<pk>[0-9]+)/$', testcase_detail	),
+    path('action/<int:action_pk>/result/', action_result_list),
+    path('action/<int:action_pk>/result/<int:result_pk>/', action_result_detail),
 ]
 things = ['selector', 'testcase', 'result', 'action']
 for x in things:

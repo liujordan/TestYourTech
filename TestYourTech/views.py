@@ -10,7 +10,7 @@ from .models import *
 from .serializers import *
 
 class runView(View):
-    def get(self, request):
+    def post(self, request):
         browser = webdriver.Chrome('C:\\Users\\Jordan Liu\\Desktop\\TestYourTech\\webdrivers\\win\\chromedriver.exe')
         browser.get('https://www.google.ca')
         elem = browser.find_element_by_name('q')
@@ -73,6 +73,49 @@ def action_list(request):
 @csrf_exempt
 def action_detail(request, pk):
     return model_detail(request, pk, Action, ActionSerializer)
+@csrf_exempt
+def action_result_list(request, action_pk):
+    try:
+        action = Action(pk=action_pk)
+    except Action.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        result = action.results.all()
+        serializer = ResultSerializer(result, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = ResultSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            action.add(Result(pk=serializer.data['id']))
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+@csrf_exempt
+def action_result_detail(request, action_pk, result_pk):
+    try:
+        action = Action(pk=action_pk)
+    except Action.DoesNotExist:
+        return HttpResponse(status=404)
+    try:
+        result = action.results.get(pk=result_pk)
+    except Result.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = ResultSerializer(result)
+        return JsonResponse(serializer.data)
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = ResultSerializer(result, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+    elif request.method == 'DELETE':
+        result.delete()
+        return HttpResponse(status=204)
 class HomeView(TemplateView):
     template_name = 'TestYourTech/index.html'
 
