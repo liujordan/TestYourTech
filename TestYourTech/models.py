@@ -42,9 +42,7 @@ class Action(models.Model):
     testcases = models.ManyToManyField(
         TestCase,
         blank=True)
-    results = models.ManyToManyField(
-        Result,
-        blank=True)
+    result = models.ForeignKey(Result, on_delete=models.CASCADE, null=True, blank=True)
     action_link = models.ManyToManyField('self', through='ActionLink', symmetrical=False)
 
 class ActionLink(models.Model):
