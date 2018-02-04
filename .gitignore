@@ -2,7 +2,7 @@
 testyourtech-venv/
 .DS_Store
 cloud_sql_proxy
-static/
+static-files/
 settings.py.bkp
 
 # Byte-compiled / optimized / DLL files
