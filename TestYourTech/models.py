@@ -34,9 +34,10 @@ class Result(models.Model):
 class Action(models.Model):
     def __str__(self):
         return self.name
-    action_type = models.CharField(max_length=256, choices=ACTION_TYPES, default='click')
-    selector = models.ForeignKey(Selector, on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
+    action_type = models.CharField(max_length=256, choices=ACTION_TYPES, default='click')
+    selector = models.CharField(max_length=256) #ONLY XPATH
+    value = models.CharField(max_length=256)
     testcases = models.ManyToManyField(
         TestCase,
         blank=True)
