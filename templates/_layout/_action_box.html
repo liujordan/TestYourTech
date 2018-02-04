@@ -1,7 +1,11 @@
-<div id="{{id}}" parent-id="{{parent_id}}" class="box action">
+<div id="{{action.id}}" class="box action">
     <div class="box-heading">
         <div class="box-title" contenteditable="true">
-          Unnamed
+          {% if action.name %}
+            {{action.name}}
+          {% else %}
+            Unnamed
+          {% endif %}
         </div>
         <div class="box-buttons">
           <div class="box-btn run-box">
