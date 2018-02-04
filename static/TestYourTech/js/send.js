@@ -5,7 +5,7 @@ function saveAction(actionBox) {
     var boxSelector = actionBox.find(".selector").val();
     var parentActionId = actionBox.attr("parent_id");
 
-    // save to database
+    // TODO: save to database
 
 }
 
@@ -16,5 +16,13 @@ function saveResult(resultBox) {
     var boxSelector = resultBox.find(".selector").val();
     var actionId = resultBox.closest(".step").find(".box.action:first");
 
-    // save to database
+    // TODO: save to database
+}
+
+function attachRunListener() {
+  $(".box.action .box-btn.run-box").click(function() {
+    var actionId = $(this).closest(".box").attr("id");
+
+    // TODO: API call
+  });
 }

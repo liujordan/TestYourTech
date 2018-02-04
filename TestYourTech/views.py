@@ -17,6 +17,6 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['action_types'] = ACTION_TYPES;
-        context['selector_types'] = SELECTOR_TYPES;
+        # context['action_types'] = ACTION_TYPES;
+        # context['selector_types'] = SELECTOR_TYPES;
         return context

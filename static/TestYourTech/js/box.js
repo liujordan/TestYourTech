@@ -5,7 +5,7 @@
  */
 
 // temp partials (to be refactored to be django partials)
-var actionBox = '<div class="step col-md-3 rp"><div class="box action">\
+var actionBox = '<div class="step col-md-3 rp"><div class="box action new">\
                 <div class="box-heading">\
                     <div class="box-title">\
                         Action\
@@ -37,7 +37,7 @@ var actionBox = '<div class="step col-md-3 rp"><div class="box action">\
                 </div>\
             </div></div>';
 
-var resultBox = '<div class="box result">\
+var resultBox = '<div class="box result new">\
                 <div class="box-heading">\
                     <div class="box-title">\
                         Expected Result\
@@ -67,47 +67,53 @@ var resultBox = '<div class="box result">\
             </div>';
 
 $(document).ready(function() {
-    // button listeners for initial action boxes
-    resultBoxListener($(".box"));
-    actionBoxListener($(".box.action"));
-    trashListener($(".box"));
-    unfocusResultAutoSave($(".box.result"));
-    unfocusActionAutoSave($(".box.action"));
+  // button listeners for initial action boxes
+  resultBoxListener($(".box"));
+  actionBoxListener($(".box.action"));
+  trashListener($(".box"));
+  unfocusResultAutoSave($(".box.result"));
+  unfocusActionAutoSave($(".box.action"));
+  attachRunListener();
+  $(".box").draggable({handle: ".box-heading"});
+
 });
 
 // creating a new result box button listener
-function resultBoxListener(aBox) {
-    aBox.find(".box-btn.add-result").click(function() {
-        $(this).closest(".step.col-md-3").append(resultBox);
-        resultBoxListener($(this).closest(".step.col-md-3").find(".box.result:last"));
-        trashListener($(this).closest(".step.col-md-3").find(".box.result:last"));
-        unfocusResultAutoSave($(this).closest(".step.col-md-3").find(".box.result:last"));
-    });
+function resultBoxListener(box) {
+  box.find(".box-btn.add-result").click(function() {
+    $(this).closest(".step.col-md-3").append(resultBox);
+    resultBoxListener($(".box.result.new"));
+    trashListener($(".box.result.new"));
+    unfocusResultAutoSave($(".box.result.new"));
+    $(".box.result.new").draggable({handle: ".box-heading"});
+    $(".box.result.new").removeClass("new");
+  });
 }
 
 // create a new action box button listener
-function actionBoxListener(aBox) {
-    aBox.find(".box-btn.next-action").click(function() {
-        $(this).closest(".step.col-md-3").after(actionBox);
-        actionBoxListener($(".box.action:last"));
-        resultBoxListener($(".box.action:last"));
-        trashListener($(".box.action:last"));
-        unfocusActionAutoSave($(".box.action:last"));
-        $(this).hide();
-    });
+function actionBoxListener(box) {
+  box.find(".box-btn.next-action").click(function() {
+    $(this).closest(".step.col-md-3").after(actionBox);
+    actionBoxListener($(".box.action.new"));
+    resultBoxListener($(".box.action.new"));
+    trashListener($(".box.action.new"));
+    unfocusActionAutoSave($(".box.action.new"));
+    $(".box.action.new").draggable({handle: ".box-heading"});
+    $(".box.action.new").removeClass("new");
+  });
 }
 
 // removing a box button listener
 function trashListener(aBox) {
-    aBox.find(".box-btn.remove-box").click(function() {
-        // result should be removed itself
-        if ($(this).closest(".box").hasClass("result")) {
-           $(this).closest(".box").remove();
-        // all associated results should be deleted from an action
-        } else if ($(this).closest(".box").hasClass("action")) {
-            $(this).closest(".box").closest(".step").remove();
-        }
-    });
+  aBox.find(".box-btn.remove-box").click(function() {
+    // result should be removed itself
+    if ($(this).closest(".box").hasClass("result")) {
+       $(this).closest(".box").remove();
+    // all associated results should be deleted from an action
+    } else if ($(this).closest(".box").hasClass("action")) {
+        $(this).closest(".box").closest(".step").remove();
+    }
+  });
 }
 
 // each action box should have this listener attached to it - on unfocus,
