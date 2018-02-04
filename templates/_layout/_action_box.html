@@ -1,31 +1,65 @@
 <div id="{{id}}" parent-id="{{parent_id}}" class="box action">
     <div class="box-heading">
-        <div class="box-title">
-            Action
+        <div class="box-title" contenteditable="true">
+          Unnamed
         </div>
         <div class="box-buttons">
           <div class="box-btn run-box">
               <span class="fa fa-play"></span>
           </div>
-            <div class="box-btn add-result">
-                <span class="fa fa-plus"></span>
-            </div>
             <div class="box-btn next-action">
-                <span class="fa fa-angle-right"></span>
+                <span class="fa fa-plus"></span>
             </div>
         </div>
     </div>
     <div class="box-details">
+      <!-- Action details -->
         <div class="col-xs-4 rp">
             <span class="type-label">Type</span>
             <span class="selector-label">Selector</span>
         </div>
         <div class="col-xs-8 rp">
             <select class="box-type">
-              <option value="form">Form</option>
+              <option value="type">Type</option>
+              <option value="goto_url">Goto URL</option>
               <option value="click">Click</option>
             </select>
             <input class="selector" type="text">
+        </div>
+        <!-- Expected Results -->
+        <div class="results-section">
+          <div class="col-xs-12 rp">
+            <div class="col-xs-8 rp">
+              Expected Result:
+            </div>
+            <div class="col-xs-4 rp">
+              <!-- future buttons -->
+            </div>
+          </div>
+          <div class="expected-results">
+            <div class="col-xs-3 rp">
+              Type
+            </div>
+            <div class="col-xs-3 rp">
+              Selector
+            </div>
+            <div class="col-xs-5 rp">
+              Expected String
+            </div>
+            <div class="col-xs-1 rp">
+            </div>
+            <div class="col-xs-3 rp">
+              <input class="expected-input result-type" type="text">
+            </div>
+            <div class="col-xs-3 rp">
+              <input class="expected-input selector-type" type="text">
+            </div>
+            <div class="col-xs-5 rp">
+              <input class="expected-input selector-string" type="text">
+            </div>
+            <div class="col-xs-1 rp">
+            </div>
+          </div>
         </div>
     </div>
 </div>

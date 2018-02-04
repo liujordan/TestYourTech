@@ -1,28 +1,34 @@
 function saveAction(actionBox) {
-    // get the type and selector
+    // get action related attributes
     var actionId = actionBox.attr("id");
     var boxType = actionBox.find(".box-type").val();
     var boxSelector = actionBox.find(".selector").val();
-    var parentActionId = actionBox.attr("parent_id");
+    var boxTitle = actionBox.find(".box-title").val();
 
-    // TODO: save to database
-
-}
-
-function saveResult(resultBox) {
-    // get the type and selector
-    var resultId = resultBox.attr("id");
-    var boxType = resultBox.find(".box-type").val();
-    var boxSelector = resultBox.find(".selector").val();
-    var actionId = resultBox.closest(".step").find(".box.action:first");
-
-    // TODO: save to database
+    // save action to database
+    $.ajax({
+      method: "PUT",
+      url: "/actions/" + actionId + "/",
+      data: { name: boxTitle, action_type: boxType, action_selector: boxSelector }
+    })
+      .done(function() {
+        // want to edit the expected results as well
+        $.ajax({
+          method: "POST",
+          url: "/actions/" + actionId + "/result",
+          data: { name: boxTitle, action_type: boxType }
+        })
+          .done(function() {
+            // want to edit the expected results as well
+            
+          });
+      });
 }
 
 function attachRunListener() {
   $(".box.action .box-btn.run-box").click(function() {
     var actionId = $(this).closest(".box").attr("id");
 
-    // TODO: API call
+    // TODO: API call to run the test case
   });
 }

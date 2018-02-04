@@ -14,11 +14,8 @@ var actionBox = '<div class="step col-md-3 rp"><div class="box action new">\
                         <div class="box-btn remove-box" style="font-weight:bold">\
                             <span class="fa fa-trash"></span>\
                         </div>\
-                        <div class="box-btn add-result" style="font-weight:bold">\
-                            <span class="fa fa-plus"></span>\
-                        </div>\
                         <div class="box-btn next-action">\
-                            <span class="fa fa-angle-right"></span>\
+                            <span class="fa fa-plus"></span>\
                         </div>\
                     </div>\
                 </div>\
@@ -37,65 +34,21 @@ var actionBox = '<div class="step col-md-3 rp"><div class="box action new">\
                 </div>\
             </div></div>';
 
-var resultBox = '<div class="box result new">\
-                <div class="box-heading">\
-                    <div class="box-title">\
-                        Expected Result\
-                    </div>\
-                    <div class="box-buttons">\
-                        <div class="box-btn add-result" style="font-weight:bold">\
-                            <span class="fa fa-plus"></span>\
-                        </div>\
-                        <div class="box-btn remove-box" style="font-weight:bold">\
-                            <span class="fa fa-trash"></span>\
-                        </div>\
-                    </div>\
-                </div>\
-                <div class="box-details">\
-                    <div class="col-xs-4 rp">\
-                        <span class="type-label">Type</span>\
-                        <span class="selector-label">Selector</span>\
-                    </div>\
-                    <div class="col-xs-8 rp">\
-                        <select class="box-type">\
-                          <option value="element">Element</option>\
-                          <option value="text">Text</option>\
-                        </select>\
-                        <input class="selector" type="text">\
-                    </div>\
-                </div>\
-            </div>';
-
 $(document).ready(function() {
   // button listeners for initial action boxes
-  resultBoxListener($(".box"));
   actionBoxListener($(".box.action"));
   trashListener($(".box"));
-  unfocusResultAutoSave($(".box.result"));
   unfocusActionAutoSave($(".box.action"));
   attachRunListener();
   $(".box").draggable({handle: ".box-heading"});
 
 });
 
-// creating a new result box button listener
-function resultBoxListener(box) {
-  box.find(".box-btn.add-result").click(function() {
-    $(this).closest(".step.col-md-3").append(resultBox);
-    resultBoxListener($(".box.result.new"));
-    trashListener($(".box.result.new"));
-    unfocusResultAutoSave($(".box.result.new"));
-    $(".box.result.new").draggable({handle: ".box-heading"});
-    $(".box.result.new").removeClass("new");
-  });
-}
-
 // create a new action box button listener
 function actionBoxListener(box) {
   box.find(".box-btn.next-action").click(function() {
     $(this).closest(".step.col-md-3").after(actionBox);
     actionBoxListener($(".box.action.new"));
-    resultBoxListener($(".box.action.new"));
     trashListener($(".box.action.new"));
     unfocusActionAutoSave($(".box.action.new"));
     $(".box.action.new").draggable({handle: ".box-heading"});
@@ -107,10 +60,7 @@ function actionBoxListener(box) {
 function trashListener(aBox) {
   aBox.find(".box-btn.remove-box").click(function() {
     // result should be removed itself
-    if ($(this).closest(".box").hasClass("result")) {
-       $(this).closest(".box").remove();
-    // all associated results should be deleted from an action
-    } else if ($(this).closest(".box").hasClass("action")) {
+    if ($(this).closest(".box").hasClass("action")) {
         $(this).closest(".box").closest(".step").remove();
     }
   });
@@ -121,20 +71,13 @@ function trashListener(aBox) {
 function unfocusActionAutoSave(actionBox) {
   actionBox.find(".selector").focusout(function() {
     saveAction(actionBox);
-    console.log("action unfocus");
   });
 
   actionBox.find(".box-type").change(function() {
-    saveResult(resultBox);
-  });
-}
-
-function unfocusResultAutoSave(resultBox) {
-  resultBox.find(".selector").focusout(function() {
-    saveResult(resultBox);
+    saveAction(actionBox);
   });
 
-  resultBox.find(".box-type").change(function() {
-    saveResult(resultBox);
+  actionBox.find(".expected-input").change(function() {
+    saveAction(actionBox);
   });
 }
