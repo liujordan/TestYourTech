@@ -29,6 +29,8 @@ class Action(models.Model):
     value = models.CharField(max_length=256, blank=True, null=True)
     result = models.ForeignKey(Result, on_delete=models.CASCADE, null=True, blank=True)
     action_link = models.ManyToManyField('self', through='ActionLink', symmetrical=False)
+    top_pos = models.CharField(max_length=256, blank=True, null=True)
+    left_pos = models.CharField(max_length=256, blank=True, null=True)
 
 class ActionLink(models.Model):
     def __str__(self):

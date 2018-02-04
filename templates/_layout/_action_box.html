@@ -1,4 +1,4 @@
-<div id="action-{{action.id}}" class="box action" style="{% if action.top_pos != "0px" %}top:{{action.top_pos}};{% endif %}{% if action.left_pos != "0px" %}left:{{action.left_pos}}{% endif %}">
+<div id="action-{{action.id}}" class="box action" style="{% if action.top_pos %}top:{{action.top_pos}};{% endif %}{% if action.left_pos %}left:{{action.left_pos}}{% endif %}">
     <div class="box-heading">
         <div class="box-title" contenteditable="true">
           {% if action.name %}

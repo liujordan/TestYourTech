@@ -4,5 +4,5 @@ Pygments==2.2.0
 pytz==2017.3
 selenium==3.8.1
 django-extensions
-psycopg2
+psycopg2==2.7.1
 gunicorn==19.7.1
