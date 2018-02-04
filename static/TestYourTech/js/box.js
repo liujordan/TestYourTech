@@ -47,10 +47,13 @@ $(document).ready(function() {
 // create a new action box button listener
 function actionBoxListener(box) {
   box.find(".box-btn.next-action").click(function() {
+    // generate the html of the new actionbox
     $(this).closest(".step.col-md-3").after(actionBox);
+    // attach all listeners to it
     actionBoxListener($(".box.action.new"));
     trashListener($(".box.action.new"));
     unfocusActionAutoSave($(".box.action.new"));
+    // make it draggable
     $(".box.action.new").draggable({handle: ".box-heading"});
     $(".box.action.new").removeClass("new");
   });

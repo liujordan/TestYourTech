@@ -19,6 +19,31 @@ class runView(View):
         browser.quit()
         return HttpResponse('Ran test without errors')
 
+class runTestView(View):
+    def get(self, request):
+        action = Action.objects.all()[int(request.GET["action_id"])]
+        browser = webdriver.Chrome('webdrivers/mac/chromedriver');
+        while action is not None:
+            if action.action_type == "url":
+                browser.get(action.selector.value)
+            elif action.action_type == "type":
+                # example for string
+                if action.selector.selector_type == "string":
+                    elem = browser.find_element_by_name(action.selector.value)
+                    elem.send_keys(action.name)
+                    elem.submit()
+            elif action.action_type == "click":
+                pass
+            # temp ignore other actions, only consider linear actions
+            next_actions = action.next_action.get_queryset()
+            try:
+                action = next_actions[0]
+            except IndexError:
+                action = None
+        # quit browser after completing test
+        browser.quit()
+        return HttpResponse("ran test without errors")
+
 def model_list(request, Model, ModelSerializer):
     if request.method == 'GET':
         model = Model.objects.all()

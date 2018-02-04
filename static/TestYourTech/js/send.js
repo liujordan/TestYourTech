@@ -19,8 +19,7 @@ function saveAction(actionBox) {
           data: { name: boxTitle, action_type: boxType }
         })
           .done(function() {
-            // want to edit the expected results as well
-            
+            // TODO: want to edit the expected results as well
           });
       });
 }
