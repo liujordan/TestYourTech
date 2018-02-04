@@ -1,4 +1,4 @@
-<div id="{{action.id}}" class="box action">
+<div id="action-{{action.id}}" class="box action" style="{% if action.top_pos != "0px" %}top:{{action.top_pos}};{% endif %}{% if action.left_pos != "0px" %}left:{{action.left_pos}}{% endif %}">
     <div class="box-heading">
         <div class="box-title" contenteditable="true">
           {% if action.name %}
@@ -21,23 +21,25 @@
         <div class="col-xs-4 rp">
             <span class="type-label">Type</span>
             <span class="selector-label">Selector</span>
+            <span class="text text-label" style="display:none">Text Value</span>
         </div>
         <div class="col-xs-8 rp">
             <select class="box-type">
-              <option value="type">Type</option>
-              <option value="goto_url">Goto URL</option>
-              <option value="click">Click</option>
+              <option value="" {% if action.action_type == ""%} selected{% endif %}>--Select One--</option>
+              <option value="url" {% if action.action_type == "url"%} selected{% endif %}>URL</option>
+              <option value="type" {% if action.action_type == "type"%} selected{% endif %}>Typing</option>
+              <option value="click" {% if action.action_type == "click"%} selected{% endif %}>Click</option>
             </select>
-            <input class="selector" type="text">
+            <input class="selector" type="text" value="{{action.selector}}">
+            <input class="text" type="text" style="display:none" value="{{action.value}}">
         </div>
         <!-- Expected Results -->
-        <div class="results-section">
+        <!-- <div class="results-section">
           <div class="col-xs-12 rp">
             <div class="col-xs-8 rp">
               Expected Result:
             </div>
             <div class="col-xs-4 rp">
-              <!-- future buttons -->
             </div>
           </div>
           <div class="expected-results">
@@ -64,6 +66,32 @@
             <div class="col-xs-1 rp">
             </div>
           </div>
-        </div>
+        </div> -->
     </div>
 </div>
+<script>
+$("#action-{{action.id}} .selector").click(function() {
+  $('#iframe-modal').modal({show: true});
+});
+
+$(document).ready(function() {
+  showCorrectType();
+});
+// if box type == typing, show value text
+$(".box-type").change(function() {
+  showCorrectType();
+});
+
+function showCorrectType() {
+  if ($(".box-type").val() === "click") {
+    $(".box-details .text").hide();
+    $(".box-details .selector,.box-details .selector-label").show();
+  } else if ($(".box-type").val() === "url") {
+    $(".box-details .text").show();
+    $(".box-details .selector,.box-details .selector-label").hide();
+  } else if ($(".box-type").val() === "type"){
+    $(".box-details .text").show();
+    $(".box-details .selector,.box-details .selector-label").show();
+  }
+}
+</script>

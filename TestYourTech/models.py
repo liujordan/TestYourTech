@@ -38,6 +38,8 @@ class Action(models.Model):
     action_type = models.CharField(max_length=256, choices=ACTION_TYPES, default='click')
     selector = models.CharField(max_length=256) #ONLY XPATH
     value = models.CharField(max_length=256)
+    left_pos = models.CharField(max_length=256, default="0px")
+    top_pos = models.CharField(max_length=256, default="0px")
     testcases = models.ManyToManyField(
         TestCase,
         blank=True)
